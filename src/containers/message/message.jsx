@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import { List, Badge } from 'antd-mobile'
 import { Brief } from 'antd-mobile/lib/list/ListItem'
-
+import QueueAnim from 'rc-queue-anim'
 
 function getLastMessage(chatMsgs, userid) {
     const lastMsgObjs ={}
@@ -53,33 +53,35 @@ class Message extends Component {
 
         return (
             <List>
-                {
-                    lastMsgs.map(msg => {
-                        const targetUserId = msg.to === user._id ? msg.from : msg.to
-                        const targetUser = users[targetUserId]
-                        
-                        return (
-                            <List.Item 
-                                key={msg._id} 
-                                extra={<Badge text={msg.unReadCount}></Badge>}
-                                thumb={msg.avatar ? require(`../../assets/images/${targetUser.avatar}.png`) : null}
-                                arrow='horizontal'
-                                onClick={() => this.props.history.push(`/chat/${targetUserId}`)}
-                                >
-                                    {
-                                        users[
-                                            msg.to === user._id 
-                                            ? msg.from 
-                                            : msg.to
-                                        ].username
-                                    }
-                                    <Brief>
-                                    {msg.content}
-                                    </Brief>
-                            </List.Item>
-                        )
-                    })
-                }
+                <QueueAnim type="right" delay={300}>
+                    {
+                        lastMsgs.map(msg => {
+                            const targetUserId = msg.to === user._id ? msg.from : msg.to
+                            const targetUser = users[targetUserId]
+                            
+                            return (
+                                <List.Item 
+                                    key={msg._id} 
+                                    extra={<Badge text={msg.unReadCount}></Badge>}
+                                    thumb={msg.avatar ? require(`../../assets/images/${targetUser.avatar}.png`) : null}
+                                    arrow='horizontal'
+                                    onClick={() => this.props.history.push(`/chat/${targetUserId}`)}
+                                    >
+                                        {
+                                            users[
+                                                msg.to === user._id 
+                                                ? msg.from 
+                                                : msg.to
+                                            ].username
+                                        }
+                                        <Brief>
+                                        {msg.content}
+                                        </Brief>
+                                </List.Item>
+                            )
+                        })
+                    }
+                </QueueAnim>
             </List>
         )
     }
