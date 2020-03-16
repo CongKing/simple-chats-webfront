@@ -21,7 +21,7 @@ export const resetUser = (msg: string) => ({type: RESET_USER, data: msg})
 
 export const receiveUserList = (userList: []) => ({type: RECEIVE_USER_LIST, data: userList})
 
-export const receiveMsgList = (data: {users: {}, chatMsgs: []}) => ({type: RECEIVE_MSG_LIST, data})
+export const receiveMsgList = (data: {users: {}, chatMsgs: [], userid: string}) => ({type: RECEIVE_MSG_LIST, data})
 
 export const receiveMsg = (chatMsg: {}, userid: string) => ({type: RECEIVE_MSG, data: {chatMsg, userid}})
 
@@ -119,7 +119,7 @@ async function getMsgList(dispatch: any, userid: string) {
     initIO(dispatch, userid)
     const res: any = await reqChatMsgList()
     if(res) {
-        dispatch(receiveMsgList({users: res.users, chatMsgs: res.chatMsgs}))
+        dispatch(receiveMsgList({users: res.users, chatMsgs: res.chatMsgs, userid}))
     }
 }
 
