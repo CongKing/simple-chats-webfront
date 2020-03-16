@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import { NavBar, List, InputItem, Grid, Icon } from 'antd-mobile'
 import { connect } from 'react-redux'
 import {sendMsg, msgRead} from '../../redux/actions'
-import QueueAnim from 'rc-queue-anim'
+
 
 class Chat extends Component {
     state ={
@@ -148,7 +148,6 @@ class Chat extends Component {
                     {users[targetId].username}
                 </NavBar>
                 <List style={{marginTop: 50, marginBottom: 50}}>
-                <QueueAnim type="alpha">
                 {
                         msgs.map(msg => {
                             if(targetId === msg.from) {
@@ -172,10 +171,7 @@ class Chat extends Component {
                                 )
                             }
                         })
-                    }
-
-                </QueueAnim>
-                    
+                    }        
                 </List>
 
                 <div className="input-bar">
