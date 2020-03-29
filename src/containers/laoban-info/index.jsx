@@ -8,7 +8,7 @@ import {
 import {updateUser} from '../../redux/actions'
 
 
-import AvatarSelector from '../../components/avatar-selector/index.jsx'
+import AvatarSelector from '../../components/avatar-selector/index.tsx'
 
 class LaoBanInfo extends Component {
 

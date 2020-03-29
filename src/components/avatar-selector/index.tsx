@@ -1,21 +1,33 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {
     List, Grid
 } from 'antd-mobile'
 
-import PropTypes from 'prop-types'
+interface Props {
+    setAvatar: Function
+}
 
-export default class AvatarSelector extends Component {
+interface State {
+    icon: string
+}
 
-    static propTypes = {
-        setAvatar: PropTypes.func.isRequired,
-    }
+interface avatar {
+    text: string,
+    icon: string,
+}
 
-    state = {
+interface handleClickFun {
+    (avatar: any): void;
+}
+
+export default class AvatarSelector extends  React.Component<Props, State> {
+
+    readonly state: State = {
         icon: ''
     }
+    avatarList: Array<avatar>
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props)
         this.avatarList = []
         for(let i=0; i < 20; i++){
@@ -26,7 +38,7 @@ export default class AvatarSelector extends Component {
         }
     }
 
-    handleClick = ({text, icon}) => {
+    handleClick: handleClickFun = ({text, icon}: avatar) => {
         this.setState({icon})
         this.props.setAvatar(text)
     }

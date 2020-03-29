@@ -5,7 +5,7 @@ import {
     NavBar,InputItem,TextareaItem, Button, WhiteSpace
 } from 'antd-mobile'
 
-import AvatarSelector from '../../components/avatar-selector/index.jsx'
+import AvatarSelector from '../../components/avatar-selector/index.tsx'
 import {updateUser} from '../../redux/actions'
 
 class DaShenInfo extends Component {

@@ -1,10 +1,17 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { WingBlank, Card, WhiteSpace } from 'antd-mobile'
-import { withRouter } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import QueueAnim from 'rc-queue-anim'
+import {UserI} from '../../types'
 
-class UserList extends Component {
+interface Props extends RouteComponentProps {
+    userList: Array<UserI>
+}
+
+interface State {}
+
+class UserList extends React.Component<Props, State> {
     static propTypes = {
         userList: PropTypes.array.isRequired
     }

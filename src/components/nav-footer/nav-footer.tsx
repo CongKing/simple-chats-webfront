@@ -1,16 +1,19 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {TabBar} from 'antd-mobile'
-import {PropTypes} from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
+import {NavI} from '../../types'
 
 const Item = TabBar.Item
 
-class NavFooter extends Component {
+interface Props extends RouteComponentProps {
+    navList: Array<NavI>,
+    unReadCount: number,
+}
 
-    static propTypes = {
-        navList: PropTypes.array.isRequired,
-        unReadCount: PropTypes.number.isRequired,
-    }
+interface State {
+}
+
+class NavFooter extends React.Component<Props, State> {
 
     render() {
         const {navList, unReadCount} = this.props
