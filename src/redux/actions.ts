@@ -11,23 +11,42 @@ import {
 } from '../api'
 import io from 'socket.io-client'
 
+// 登录成功
 const authSuccess = (user: any) => ({type: AUTH_SUCCESS, data: user})
-
+// 用户列表
+const receiveUser = (user: any) => ({type: RECEIVE_USER, data: user})
+// 错误消息
 const errMsg = (msg: string) => ({type: ERR_MSG, data: msg})
 
-const receiveUser = (user: any) => ({type: RECEIVE_USER, data: user})
-
+/**
+ * 清除 user 信息
+ * @param msg 
+ */
 export const resetUser = (msg: string) => ({type: RESET_USER, data: msg})
-
+/**
+ * 获取用户列表
+ * @param userList 
+ */
 export const receiveUserList = (userList: []) => ({type: RECEIVE_USER_LIST, data: userList})
-
+/**
+ * 接受所有消息
+ * @param data 
+ */
 export const receiveMsgList = (data: {users: {}, chatMsgs: [], userid: string}) => ({type: RECEIVE_MSG_LIST, data})
-
+/**
+ * 接受一条消息
+ * @param chatMsg 
+ * @param userid 
+ */
 export const receiveMsg = (chatMsg: {}, userid: string) => ({type: RECEIVE_MSG, data: {chatMsg, userid}})
 
+// 消息已读
 const readMsg = ({count , from, to}: any) => ({type: READ_MSG, data: {count, from, to}})
 
-// 异步
+/**
+ * 注册
+ * @param user 
+ */
 export const register = (user: any) => {
     const {username, password, password2, type} = user
 
@@ -44,7 +63,10 @@ export const register = (user: any) => {
     }
 }
 
-// 异步
+/**
+ * 登录
+ * @param user 
+ */
 export const login = (user: any) => {
 
     const {username, password} = user
@@ -63,6 +85,10 @@ export const login = (user: any) => {
     }
 }
 
+/**
+ * 更新用户信息
+ * @param user 
+ */
 export const updateUser = function(user: any) {
     return async (dispatch: any) => {
         const res = await reqUpdateUser(user)
@@ -71,10 +97,13 @@ export const updateUser = function(user: any) {
     }
 }
 
+/**
+ * cookie 登录获取用户信息
+ */
 export const getUser = function() {
     return async (dispatch: any) => {
         const user: any = await reqUser()
-        if (user){
+        if (user) {
             getMsgList(dispatch, user._id)
             dispatch(receiveUser(user))
         } 
@@ -82,6 +111,10 @@ export const getUser = function() {
     }
 }
 
+/**
+ * 获取用户列表
+ * @param type 
+ */
 export const getUserList = (type: string) => {
     return async (dispatch: any) => {
         const res: any = await reqUserList({type})
@@ -91,15 +124,20 @@ export const getUserList = (type: string) => {
 }
 
 
-
-let socket: any
+let socket: any // 存放用户登录后的socket
 export const sendMsg = (chatMsg: any) => {
     return async ( dispatch: any) => {
+        // 初始化 socket
         await initIO(dispatch, chatMsg.from)
         socket.emit('sendMsg', chatMsg)
     }
 }
 
+/**
+ * 初始化 socketIO
+ * @param dispatch 
+ * @param userid 
+ */
 function initIO (dispatch: any, userid: string) {
     return new Promise((resolve, reject) => {
         if(!socket) {
@@ -115,14 +153,25 @@ function initIO (dispatch: any, userid: string) {
     })
 }
 
+/**
+ * 获取聊天信息
+ * @param dispatch 
+ * @param userid 
+ */
 async function getMsgList(dispatch: any, userid: string) {
-    initIO(dispatch, userid)
+    // 初始化 socket
+    initIO(dispatch, userid) 
     const res: any = await reqChatMsgList()
     if(res) {
         dispatch(receiveMsgList({users: res.users, chatMsgs: res.chatMsgs, userid}))
     }
 }
 
+/**
+ * 设置消息已读
+ * @param from 
+ * @param to 
+ */
 export const msgRead = (from: string, to: string) => {
     return async (dispatch: any) => {
         const res = await reqReadMsg({from})

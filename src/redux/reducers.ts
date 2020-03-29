@@ -12,6 +12,7 @@ import {
 import {RECEIVE_USER_LIST} from './action-type'
 import {getRedirectUrl} from '../utils'
 
+// 用户登录 & 用户列表
 const initUser = {
     username: '',
     type: '',
@@ -35,6 +36,7 @@ function user (state = initUser, action: any) {
     }
 }
 
+// 用户列表
 const initUserList: any = []
 function userList(state = initUserList, action: any) {
     switch(action.type) {
@@ -46,6 +48,7 @@ function userList(state = initUserList, action: any) {
 }
 
 
+// 消息 
 const initChat = {
     users: {},
     chatMsgs: [],
