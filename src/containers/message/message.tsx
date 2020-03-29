@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { List, Badge } from 'antd-mobile'
 import { Brief } from 'antd-mobile/lib/list/ListItem'
 import QueueAnim from 'rc-queue-anim'
+import { RouteComponentProps } from 'react-router-dom'
+import {UserI, MsgI} from '../../types/index'
 
-function getLastMessage(chatMsgs, userid) {
-    const lastMsgObjs ={}
+function getLastMessage(chatMsgs: Array<any>, userid: string | undefined): Array<any>  {
+    const lastMsgObjs: any = {}
     chatMsgs.forEach(msg => {
         
         if(msg.to === userid && !msg.read) {
@@ -31,14 +33,23 @@ function getLastMessage(chatMsgs, userid) {
 
     const lastMsgs = Object.values(lastMsgObjs)
 
-    lastMsgs.sort((m1, m2) => {
+    lastMsgs.sort((m1: any, m2: any) => {
         return m1.create_time - m2.create_time
     })
 
     return lastMsgs
 }
 
-class Message extends Component {
+interface Props extends RouteComponentProps {
+    user: UserI,
+    [key: string]: any,
+}
+
+interface State {
+}
+
+
+class Message extends React.Component<Props, State> {
 
     componentDidMount() {
         
@@ -46,16 +57,16 @@ class Message extends Component {
 
     render() {
 
-        const user = this.props.user
+        const user: UserI = this.props.user
         const {users, chatMsgs} = this.props.chat
 
-        const lastMsgs = getLastMessage(chatMsgs, user._id)
+        const lastMsgs: Array<any> = getLastMessage(chatMsgs, user._id)
 
         return (
             <List>
                 <QueueAnim type="right" delay={300}>
                     {
-                        lastMsgs.map(msg => {
+                        lastMsgs.map((msg: any)  => {
                             const targetUserId = msg.to === user._id ? msg.from : msg.to
                             const targetUser = users[targetUserId]
                             
@@ -88,6 +99,6 @@ class Message extends Component {
 }
 
 export default connect(
-    state => ({user: state.user, chat: state.chat}),
+    (state: any) => ({user: state.user, chat: state.chat}),
     {}
 )(Message)

@@ -1,13 +1,24 @@
-import React, {Component} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
 import { Result, List, WhiteSpace, Button, Modal } from 'antd-mobile'
 import { Brief } from 'antd-mobile/lib/list/ListItem'
+import { RouteComponentProps } from 'react-router-dom'
 
 import { resetUser } from '../../redux/actions'
+import {UserI} from '../../types/index'
+
 const Item = List.Item
 
-class Personal extends Component {
+interface Props extends RouteComponentProps {
+    resetUser: Function,
+    user: UserI
+}
+
+interface State extends UserI {
+}
+
+class Personal extends React.Component<Props, State> {
 
     handleLogout = () => {
         Modal.alert('退出', '确认退出登录嘛？', [
@@ -21,7 +32,6 @@ class Personal extends Component {
                 text: '确定',
                 onPress: () => {
                     Cookies.remove('userid')
-                    // TODO 删除 user
                     this.props.resetUser()
                 }
             }
@@ -29,7 +39,6 @@ class Personal extends Component {
     }
 
     render() {
-        console.log('Personal')
 
         const {username, info, avatar, company, post, salary} = this.props.user
 
@@ -57,6 +66,6 @@ class Personal extends Component {
 }
 
 export default connect(
-    state => ({user: state.user}),
+    (state: any) => ({user: state.user}),
     {resetUser}
 )(Personal)

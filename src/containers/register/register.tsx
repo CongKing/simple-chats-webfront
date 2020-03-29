@@ -1,9 +1,8 @@
-import React, {Component} from 'react'
-import {Redirect} from 'react-router-dom'
+import React from 'react'
+import {Redirect, RouteComponentProps} from 'react-router-dom'
 import {
     NavBar,
     WingBlank,
-    List,
     InputItem,
     WhiteSpace,
     Radio,
@@ -14,10 +13,19 @@ import {register} from '../../redux/actions'
 
 import Logo from '../../components/logo/logo'
 import ListItem from 'antd-mobile/lib/list/ListItem'
+import {UserI, UserStateI} from '../../types/index'
 
-class Register extends Component {
+interface Props extends RouteComponentProps {
+    register: Function,
+    user: UserStateI
+}
 
-    state = {
+interface State extends UserI {
+    [key: string]: any,
+}
+
+class Register extends React.Component<Props, State> {
+    readonly state: State = {
         username: '',
         password: '',
         password2: '',
@@ -28,7 +36,7 @@ class Register extends Component {
         this.props.register(this.state)
     }
 
-    handleChange(prop, val) {
+    handleChange(prop: string, val: any) {
         this.setState({
             [prop]: val
         })
@@ -46,7 +54,7 @@ class Register extends Component {
         }
         return (
             <div>
-                <NavBar>嘿 嘿 置 评</NavBar>
+                <NavBar>招兵买马</NavBar>
                 <WhiteSpace></WhiteSpace>
                 <WhiteSpace></WhiteSpace>
                 
@@ -79,6 +87,6 @@ class Register extends Component {
 }
 
 export default connect(
-    state => ({user: state.user}),
+    (state: any) => ({user: state.user}),
     {register}
 )(Register)

@@ -3,6 +3,7 @@ import React from 'react'
 export interface UserI {
   username: string,
   password: string,
+  password2?: string,
   type: string,
   _id?: string,
   avatar?: string,
@@ -28,5 +29,19 @@ export interface NavI {
   title: string,
   icon: string,
   text: string,
+}
+
+
+export interface UserStateI {
+  username: string,
+  type: string,
+  msg: string,
+  redirectTo: string,
+}
+
+export interface ChatStateI {
+  users: {[key: string]: any},
+  chatMsgs: Array<MsgI>,
+  unReadCount: number,
 }
 

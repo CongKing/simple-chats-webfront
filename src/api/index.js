@@ -1,9 +1,8 @@
-import axsio from './axios'
-import Axios from 'axios'
+import axios from './axios'
 
 
 export function reqRegister(params) {
-    return axsio({
+    return axios({
         url: '/register',
         method: 'post',
         data: params
@@ -11,7 +10,7 @@ export function reqRegister(params) {
 }
 
 export function reqLogin(params) {
-    return axsio({
+    return axios({
         url: '/login',
         method: 'post',
         data: params
@@ -19,7 +18,7 @@ export function reqLogin(params) {
 }
 
 export function reqUpdateUser(params) {
-    return axsio({
+    return axios({
         url: '/update',
         method: 'post',
         data: params
@@ -27,7 +26,7 @@ export function reqUpdateUser(params) {
 }
 
 export function reqUser(params) {
-    return axsio({
+    return axios({
         url: '/user',
         method: 'get',
         data: params
@@ -35,7 +34,7 @@ export function reqUser(params) {
 }
 
 export function reqUserList(params) {
-    return axsio({
+    return axios({
         url: '/userlist',
         method: 'get',
         params,
@@ -43,7 +42,7 @@ export function reqUserList(params) {
 }
 
 export function reqChatMsgList(params) {
-    return axsio({
+    return axios({
         url: '/msglist',
         method: 'get',
         params,
@@ -51,7 +50,7 @@ export function reqChatMsgList(params) {
 }
 
 export function reqReadMsg(data) {
-    return axsio({
+    return axios({
         url: '/readmsg',
         method: 'post',
         data,

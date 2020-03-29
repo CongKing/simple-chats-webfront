@@ -11,16 +11,19 @@ import {
 
 import {RECEIVE_USER_LIST} from './action-type'
 import {getRedirectUrl} from '../utils'
+import {AnyAction} from 'redux'
+import {MsgI} from '../types/index'
+import {UserStateI} from '../types/index'
 
 // 用户登录 & 用户列表
-const initUser = {
+const initUser: UserStateI = {
     username: '',
     type: '',
     msg: '',
     redirectTo: '', 
 }
 
-function user (state = initUser, action: any) {
+function user (state = initUser, action: AnyAction) {
     switch(action.type) {
         case AUTH_SUCCESS: // data user
             const {type, avatar} = action.data 
@@ -38,7 +41,7 @@ function user (state = initUser, action: any) {
 
 // 用户列表
 const initUserList: any = []
-function userList(state = initUserList, action: any) {
+function userList(state = initUserList, action: AnyAction) {
     switch(action.type) {
         case RECEIVE_USER_LIST:
             return action.data
@@ -55,14 +58,14 @@ const initChat = {
     unReadCount: 0,
 }
 
-function chat (state=initChat, action: {type: string, data: {users: {}, chatMsgs: [], userid: string, chatMsg: any}}) {
+function chat (state=initChat, action: AnyAction) {
     switch(action.type) {
         case RECEIVE_MSG_LIST:
             const {users, chatMsgs} = action.data
             return {
                 users,
                 chatMsgs,
-                unReadCount: chatMsgs.reduce((preCount, msg: any) => {
+                unReadCount: chatMsgs.reduce((preCount: number, msg: MsgI) => {
                     return preCount + (!msg.read && msg.to === action.data.userid ? 1 : 0)
                 }, 0),
             }
@@ -78,7 +81,7 @@ function chat (state=initChat, action: {type: string, data: {users: {}, chatMsgs
             const data: any = action.data
             return {
                 users: state.users,
-                chatMsgs: state.chatMsgs.map((msg: any) => {
+                chatMsgs: state.chatMsgs.map((msg: MsgI) => {
                     if(msg.from === data.from && msg.to === data.to && !msg.read) {
                         return {...msg, read: true}
                     } else {
